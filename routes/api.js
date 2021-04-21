@@ -3,7 +3,13 @@ const Workout = require("../models/workout.js");
 const path = require("path");
 
 router.get("/api/workouts", ({ body }, res) => {
-  Workout.aggregate({$addFields: {totalDuration: {$sum: '$exercises.duration'}}})
+  Workout.aggregate({ 
+    $addFields: { 
+      totalDuration: {
+        $sum: '$exercises.duration'
+      }
+    }
+  })
     .then(dbExercise => {
       res.json(dbExercise);
     })
@@ -55,6 +61,14 @@ router.get("/api/workouts/range", (req, res) => {
 
 router.get('/exercise', (req, res) => {
   res.sendFile(path.join(__dirname, "../public/exercise.html" ));
+});
+
+router.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"))
+});
+
+router.get("/stats", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/stats.html"))
 });
 
 
