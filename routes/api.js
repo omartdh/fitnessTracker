@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Workout = require("../models/workout.js");
+const path = require("path");
 
 router.get("/api/workouts", ({ body }, res) => {
   Workout.aggregate({$addFields: {totalDuration: {$sum: '$exercises.duration'}}})
@@ -50,6 +51,10 @@ router.get("/api/workouts/range", (req, res) => {
     .catch(err => {
       res.status(400).json(err);
     });
+});
+
+router.get('/exercise', (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/exercise.html" ));
 });
 
 
